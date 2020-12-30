@@ -3,36 +3,41 @@ import pandas as pd
 from datetime import date
 import pygal
 
-# pressure table
-pressure = pd.read_excel('Pressure.xlsx', sheet_name='Pressure')
 
-# convert into datetime
-pressure['Date'] = pd.to_datetime(pressure['Date'],	format='%d.%M.%Y')
-# print(pressure.dtypes)
+class Pressure:
+	''' class aggregating analytics of blood pressure '''
 
-# show datatypes and table
-# print(pressure.dtypes)
-# print(pressure)
+	def __init__(self, excel, sheet_name):
+		# open given excel table
+		self.df = pd.read_excel(excel, sheet_name)
+		#converting to correct datatypes
 
-first_date = pressure['Date'].iloc[0]
-last_date  = pressure['Date'].iloc[len(pressure) - 1]
-period = last_date - first_date
-# print(period)
+	def print_df(self):
+		# print table
+		print(self.df)
 
-days_measured = len(pressure.groupby(['Date']).mean())
+	def null_time_value_filling(self):
 
-# pygal chart
-# line_chart = pygal.StackedBar()
-# line_chart.title = 'title'
-# line_chart.add('name', [69.47])
-# line_chart.add('name', [30.53])
-# line_chart.render()
-# line_chart.render_to_file('chart.svg')
+		
+	def converting(self):
+		# convert cells of excel to understandable datatypes
+		self.df.Date = pd.to_datetime(self.df.Date,
+		 									format='%d.%m.%Y')
+		self.df.Time = pd.to_datetime(self.df.Time, 
+											format='%H:%M:%S').dt.time
+		
+		self.df.Upper = self.df.Upper.astype(int)
+		# self.df.DateTime = str(self.df.Date) + ' ' + str(self.df.Time)
 
-records_per_day = 0
 
-pressure['rec_per_day'] = pressure.groupby('Date')['Date'].transform('count')
-mean_measures_per_day = pressure['rec_per_day'].mean()
-# print(mean_measures_per_day)
+		print(self.df.dtypes)		
+		print(self.df)
 
-print(pressure.groupby(pressure['Date'].dt.strftime('%M'))['rec_per_day'].sum().sort_values())
+	
+
+# to show info give filename and sheet name
+# excel file need to have columns in order:
+# Date, Time, Upper, Down, Pulse, Comments (optional)
+obj = Pressure('Pressure.xlsx', 'Pressure')
+obj.converting()
+
