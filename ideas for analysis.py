@@ -1,4 +1,18 @@
+# if we have time in evening but dont have at the morning 6 5 3
+			elif pd.isnull(self.df.Time[i]) == True \
+			   and pd.isnull(self.df.Time[i + 1]) == True \
+			   and pd.isnull(self.df.Time[i + 2]) == True \
+			   and pd.isnull(self.df.Time[i + 3]) == False \
+			   and self.df.Date_freq[i] > 4:
+				delta = timedelta(hours = 2)
+				current_date = date(self.df.Date[i].year, \
+									self.df.Date[i].month, \
+									self.df.Date[i].day)
 
+				self.df.Time[i] = (datetime.combine(current_date, self.df.Time[i + 3]) - delta).time()
+
+
+				
 # convert into datetime
 pressure['Date'] = pd.to_datetime(pressure['Date'],	format='%d.%M.%Y')
 # print(pressure.dtypes)
