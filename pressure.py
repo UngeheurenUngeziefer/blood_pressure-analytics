@@ -23,6 +23,8 @@ class Pressure:
 		self.df['Date_freq'] = \
 							self.df.groupby('Date')['Date'].transform('count')
 
+		self.df['Sum of systolic and diastolic pressure'] = self.df.Upper + self.df.Down
+
 		# filling the empty time records if we know time of near records
 		for i in range(len(self.df.Time)):
 			
@@ -176,6 +178,10 @@ class Pressure:
 		self.df.at[0, 'Avg number of pulse'] = self.df.Pulse.mean()
 		self.df.at[0, 'Min number of pulse'] = min(self.df.Pulse)
 		self.df.at[0, 'Max number of pulse'] = max(self.df.Pulse)
+		self.df.at[0, 'Max of sum of systolic and diastolic pressure'] = max(self.df['Sum of systolic and diastolic pressure'])
+		self.df.at[0, 'Min of sum of systolic and diastolic pressure'] = min(self.df['Sum of systolic and diastolic pressure'])
+		
+
 
 		# print('Total measurements per year: ')
 		# print(self.df.groupby([self.df.Date.dt.year]
@@ -206,12 +212,11 @@ class Pressure:
 
 
 
-
-
 #excel.print_df()
 excel = Pressure('res/Pressure.xlsx', 'Pressure')
 
 excel.new_dates_columns()
 excel.new_times_columns()
 excel.print_info()
-#excel.save_df('C:/Users/sewer/MyPython/Blood Pressure Analytics/Output Table.csv')
+# excel.save_df('C:/Users/sewer/MyPython/Blood Pressure Analytics/Output Table.csv')
+
