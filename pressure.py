@@ -15,6 +15,17 @@ class Pressure:
 		# open given excel table
 		self.df = pd.read_excel(excel, sheet_name)
 
+		# creating datetime column
+		self.df['Date'] = self.df['Date'].astype(str)
+		self.df['Time'] = self.df['Time'].astype(str)
+
+		for i in range(len(self.df['Date'])):
+			if pd.notna(self.df['Time'][i]) == True:
+				self.df['DateTime'][i] = self.df.Date + " " + self.df.Time
+			elif pd.notna(self.df['Time'][i]) == False:
+				self.df['DateTime'][i] = self.df['Date']
+		self.df['DateTime'] = pd.to_datetime(self.df['DateTime'], format='%Y.%m.%d %H:%M:%S')
+
 		# converting to correct datatypes
 		self.df.Date = pd.to_datetime(self.df.Date,	format='%d.%m.%Y')
 		self.df.Time = pd.to_datetime(self.df.Time, format='%H:%M:%S').dt.time
@@ -56,6 +67,9 @@ class Pressure:
 							pass
 			else:
 				pass
+
+
+		print(self.df.dtypes)
 
 
 	def minus_2_hours(self, index):
@@ -183,40 +197,41 @@ class Pressure:
 		
 
 
-		# print('Total measurements per year: ')
-		# print(self.df.groupby([self.df.Date.dt.year]
-		# 					 )['Measurements_per_year'].count().to_string())
+		print('Total measurements per year: ')
+		print(self.df.groupby([self.df.Date.dt.year]
+							 )['Measurements_per_year'].count().to_string())
 
-		# print('Total measurements per month: ')
-		# print(self.df.groupby([self.df.Date.dt.year,
-		# 	 				   self.df.Date.dt.month]
-		# 					 )['Measurements_per_month'].count().to_string())
-		# print('Total measurements per day: ')
-		# print(self.df.groupby([self.df.Date.dt.year,
-		# 				 	   self.df.Date.dt.month, 
-		# 				 	   self.df.Date.dt.day]
-		# 					 )['Date_freq'].count().to_string())
-		# print('Days of measurements per year: ')
-		# print(self.df.groupby([self.df.Unique_dates.dt.year.map('{:.0f}'.format)]
-		# 				 	 )['Unique_dates'].count().to_string())
-		# print('Days of measurements per month: ')
-		# print(self.df.groupby([self.df.Unique_dates.dt.year.map('{:.0f}'.format),
-		# 				 	   self.df.Unique_dates.dt.month.map('{:.0f}'.format)]
-		# 				 	 )['Unique_dates'].count().to_string())
-		# print('Times of day of measurements format-4: ')
-		# print(self.df.groupby(self.df.Times_of_day_4)['Date'].count().to_string())
-		# print('Times of day of measurements format-2: ')
-		# print(self.df.groupby(self.df.Times_of_day_2)['Date'].count().to_string())
-		# print('Season of measurements: ')
-		# print(self.df.groupby(self.df.Season)['Date'].count().rename({'Season':'asd'}).to_string())
+		print('Total measurements per month: ')
+		print(self.df.groupby([self.df.Date.dt.year,
+			 				   self.df.Date.dt.month]
+							 )['Measurements_per_month'].count().to_string())
+		print('Total measurements per day: ')
+		print(self.df.groupby([self.df.Date.dt.year,
+						 	   self.df.Date.dt.month, 
+						 	   self.df.Date.dt.day]
+							 )['Date_freq'].count().to_string())
+		print('Days of measurements per year: ')
+		print(self.df.groupby([self.df.Unique_dates.dt.year.map('{:.0f}'.format)]
+						 	 )['Unique_dates'].count().to_string())
+		print('Days of measurements per month: ')
+		print(self.df.groupby([self.df.Unique_dates.dt.year.map('{:.0f}'.format),
+						 	   self.df.Unique_dates.dt.month.map('{:.0f}'.format)]
+						 	 )['Unique_dates'].count().to_string())
+		print('Times of day of measurements format-4: ')
+		print(self.df.groupby(self.df.Times_of_day_4)['Date'].count().to_string())
+		print('Times of day of measurements format-2: ')
+		print(self.df.groupby(self.df.Times_of_day_2)['Date'].count().to_string())
+		print('Season of measurements: ')
+		print(self.df.groupby(self.df.Season)['Date'].count().rename({'Season':'asd'}).to_string())
 
 
 
 #excel.print_df()
 excel = Pressure('res/Pressure.xlsx', 'Pressure')
-
 excel.new_dates_columns()
 excel.new_times_columns()
-excel.print_info()
-# excel.save_df('C:/Users/sewer/MyPython/Blood Pressure Analytics/Output Table.csv')
+
+# excel.print_info()
+
+# excel.save_df('C:/Users/sewer/MyPython/Blood Pressure Analytics/res/Output Table.csv')
 
