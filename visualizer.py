@@ -3,7 +3,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pygal
 import pandas as pd
+<<<<<<< HEAD
 import matplotlib.dates as mdates
+=======
+>>>>>>> 1c4491f72963f1a7e0a09f1b407d9107e6f32d4c
 
 ##################### Two dimensional plot Scatter_hist#######################
 y = excel.df.Upper
@@ -65,6 +68,7 @@ plt.show()
 # plt.show()
 
 
+<<<<<<< HEAD
 ##################### Upper Overall #####################################
 # var = excel.df.Upper
 # time = excel.df.Date
@@ -95,8 +99,17 @@ plt.show()
 # ax.grid()
 
 # plt.show()
+=======
+##################### THIRD PLOT ##############################
+df = pd.DataFrame({'x': excel.df.Date, 'y': excel.df.Time })
 
 
+plt.plot('x', 'y', data=df, linestyle='none', marker='o')
+>>>>>>> 1c4491f72963f1a7e0a09f1b407d9107e6f32d4c
+
+plt.show()
+
+<<<<<<< HEAD
 ##################### Time of Measurements ##############################
 # df = pd.DataFrame({'x': excel.df.Date, 'y': excel.df.Time })
 
@@ -108,3 +121,5 @@ plt.show()
 # plt.gcf().axes[0].yaxis.set_major_formatter(xformatter)
 
 # plt.show()
+=======
+>>>>>>> 1c4491f72963f1a7e0a09f1b407d9107e6f32d4c
